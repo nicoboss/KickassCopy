@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1418238066 source:e:\documents\github\kickasscopy\kickasshtmlscan\main.cpp
+1418333218 source:e:\documents\github\kickasscopy\kickasshtmlscan\main.cpp
 	<iostream>
-	<iostream>
+	<sstream>
 	<fstream>
 	<string>
+	<dirent.h>
 

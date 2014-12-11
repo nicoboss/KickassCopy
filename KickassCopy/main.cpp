@@ -8,7 +8,7 @@ using namespace std;
 
 
 //http://www.cplusplus.com/forum/general/102786/
-bool next(std::string& x)
+bool next(string& x)
 {
     size_t len = x.size();
     bool overflow = true;
@@ -17,23 +17,29 @@ bool next(std::string& x)
         if(--len == 0)
             return false;
         (x[len] == 'z')?(overflow = true, x[len] = 'a'):x[len] += 1;
+        if(x[len]==':')
+            x[len] += 39;
     }
     return true;
 }
 
-std::pair<bool, std::string> brute5()
+pair<bool, string> brute5()
 {
     fstream fs;
-    fs.open ("kickass_for_HTtrack.txt", std::fstream::out);
-    std::string brute="http://kickass.so/usearch/aaa";//('a', 48);
+    fs.open ("kickass_for_HTtrack.txt", fstream::out);
+    string brute="http://kickass.so/usearch/aaa";//('a', 48);
     do {
         //ShellExecute(NULL, "open", "document.doc", NULL, NULL, SW_SHOWNORMAL);
-        cout << brute << endl;
-        //fs << brute << "/" << endl;
-        for(int i=5; i<11; i++)
+        //if(brute[brute.length()-1]<'a' or brute[brute.length()-2]<'a' or brute[brute.length()-3]<'a') Nubers in conbination only mod
         {
-            fs << brute << "/" << i << "/" << endl;
+            cout << brute << endl; //endl is better because Buffer Overvlow but slower than << "\n"! The Best thinng is to don't show anything!
+            //fs << brute << "/" << endl;
+            for(int i=17; i<21; i++)
+            {
+                fs << brute << "/" << i << "/" << endl;
+            }
         }
+
         if(brute=="http://kickass.so/usearch/zzz")
         {
             fs.close();
@@ -41,10 +47,10 @@ std::pair<bool, std::string> brute5()
         }
 
         //if (hash(brute) == desired_hash)
-        //return std::make_pair(true, brute);
+        //return make_pair(true, brute);
     }
     while(next(brute));
-    //return std::make_pair(false, std::string());
+    //return make_pair(false, string());
     fs.close();
 }
 
