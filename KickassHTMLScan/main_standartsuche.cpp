@@ -12,12 +12,14 @@ const long double sysTime = time(0);
 const long double sysTimeMS = sysTime*1000;
 
 //Global Variables have to be Glabal!
+stringstream magnet_ss;
 unsigned long magnet_count=0;
 unsigned long magnet_count_temp=0;
 unsigned long magnet_clock;
 unsigned int magnet_duplication_cont=0;
 unsigned int magnet_duplication_cont_temp=0;
 
+stringstream torrent_ss;
 unsigned long torrent_count=0;
 unsigned long torrent_count_temp=0;
 unsigned long torrent_clock;
@@ -27,8 +29,10 @@ unsigned int torrent_duplication_cont_temp=0;
 stringstream outfile_ss;
 
 fstream tempfile;
-ifstream infile_ScanFile;
 ifstream myfile_Get_all_Files;
+ifstream infile_ScanFile;
+stringstream infile_ScanFile_ss;
+string infile_ScanFile_string;
 
 double clock_duration;
 
@@ -51,7 +55,7 @@ int main()
     cout << "Deleting old temp files..." << endl;
     remove("Magnet_Links.txt");
     remove("Torrent_Links_for_HTTrack.txt");
-    dir="./kickass";
+    dir="./kickass/";
     cout << "Preparing Clock..." << endl;
     clock_t start;
     magnet_clock = clock();
@@ -146,6 +150,7 @@ void Get_all_Files(string dir, unsigned int Header_Basisphath_length, unsigned i
 void ScanFile(string path)
 {
     string Find1="http://torcache.net/torrent/";
+    int Find1_Pos=0;
     string Find2="magnet:?xt=urn:btih:";
     string Torrent_URL;
     string Magnet_URL;
@@ -160,8 +165,13 @@ void ScanFile(string path)
 
     infile_ScanFile.open(path, ios::in|ios::binary);
     if (infile_ScanFile.is_open()) {
-        while (infile_ScanFile.get(infile_char))
+        infile_ScanFile_ss << infile_ScanFile.rdbuf();
+        infile_ScanFile_string=infile_ScanFile_ss.str();
+        infile_ScanFile.close();
+        while (Find1_Pos=infile_ScanFile_string.find_first_of(Find1, Find1_Pos+1))
         {
+            if(Find1_Pos==string::npos) break;
+            /*
             if(infile_char==Find1[pos1])
             {
                 Torrent_URL+=infile_char;
@@ -179,21 +189,29 @@ void ScanFile(string path)
                 pos2=0;
                 Magnet_URL="";
             }
+            */
 
 
-            if(pos1==Find1_length)
+            //if(infile_ScanFile_string.find_first_of(Find1))
             {
-                while(infile_ScanFile.get(infile_char))
+                //Find1_Pos-infile_ScanFile_string.find(" ", Find1_Pos)
+                Torrent_URL=infile_ScanFile_string.substr(Find1_Pos, infile_ScanFile_string.find_first_of('"', Find1_Pos)-Find1_Pos);
+                //cout << Torrent_URL << endl;
+                /*
+                while(infile_ScanFile_string[infile_ScanFile_string])
                 {
-                    if(infile_char=='"') break;
+                    if(infile_char=='"' or infile_char==' ') break;
                     Torrent_URL+=infile_char;
                     pos1++;
                 }
+                */
 
                 pos1=0;
-                outfile_ss << "./temp/Torrent/" << Torrent_URL[28] << Torrent_URL[29];
+                //cout << Torrent_URL << endl;
+                torrent_ss << Torrent_URL << endl;
+                outfile_ss << "./temp/Torrent/" << Torrent_URL[28] << Torrent_URL[29] << ".tmp";
 
-                tempfile.open(outfile_ss.str(), ios::in|ios::out|ios::binary|ios::app);
+                tempfile.open(outfile_ss.str(), ios::in|ios::out|ios::binary|ios_base::app);
                 duplicate=false;
                 tempfile.seekg(0, tempfile.end);
                 //cout << tempfile.tellg() << endl;
@@ -229,11 +247,11 @@ void ScanFile(string path)
                              << "s and " << clock_duration << "s/part avg="
                              << (clock()/(double)CLOCKS_PER_SEC/torrent_count*1000) << "ms/l D/p="
                              << torrent_duplication_cont_temp << " Dubl=" << torrent_duplication_cont
-                             << "\nFile:" << path << '\n' << endl;
+                             << '\n' << endl;
                         torrent_duplication_cont_temp=0;
                         torrent_clock = clock();
                     }
-                    tempfile << Torrent_URL << '\n';
+                    tempfile << Torrent_URL << endl;
                 }
 
                 tempfile.close();
@@ -248,15 +266,17 @@ void ScanFile(string path)
             {
                 while(infile_ScanFile.get(infile_char))
                 {
-                    if(infile_char=='"') break;
+                    if(infile_char=='"' or infile_char==' ') break;
                     Magnet_URL+=infile_char;
                     pos2++;
                 }
 
                 pos2=0;
-                outfile_ss << "./temp/Magnet/" << Magnet_URL[20] << Magnet_URL[21];
+                //cout << Magnet_URL << endl;
+                magnet_ss << Magnet_URL << endl;
+                outfile_ss << "./temp/Magnet/" << Magnet_URL[20] << Magnet_URL[21] << ".tmp";
 
-                tempfile.open(outfile_ss.str(), ios::in|ios::out|ios::binary|ios::app);
+                tempfile.open(outfile_ss.str(), ios::in|ios::out|ios::binary|ios_base::app);
                 duplicate=false;
                 tempfile.seekg(0, tempfile.end);
                 //cout << tempfile.tellg() << endl;
@@ -296,7 +316,7 @@ void ScanFile(string path)
                         magnet_duplication_cont_temp=0;
                         magnet_clock = clock();
                     }
-                    tempfile << Magnet_URL << '\n';
+                    tempfile << Magnet_URL << endl;
                 }
 
                 tempfile.close();
