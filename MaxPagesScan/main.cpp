@@ -4,9 +4,11 @@
 #include <string>
 #include <dirent.h>
 #include <ctime>
+#include <stdlib.h>
 
 using namespace std;
 unsigned int Header_deaph=0;
+unsigned long results=0;
 
 stringstream outfile_ss;
 fstream tempfile;
@@ -24,9 +26,10 @@ void ScanFile(string path);
 int main()
 {
     cout << "Preparing MaxPages Scan..." << endl;
-    cout << "Start scaning..." << endl;
+    cout << "Start scaning...\n" << endl;
     Get_all_Files("./kickass");
-    cout << "Saving..." << endl;
+    cout << "\nFound " << results << " results! :D" << endl;
+    cout << "Saving...\n" << endl;
     ofstream outfile ("MaxPages.txt", ios::out|ios::binary|ios::trunc);
     outfile << outfile_ss.str();
     outfile.close();
@@ -66,11 +69,11 @@ void Get_all_Files(string dir)
                 temp_ss << dir << "/" << entry->d_name;
                 temp=temp_ss.str();
 
-                myfile_Get_all_Files.open(temp.c_str(), ios::in|ios::binary);
+                myfile_Get_all_Files.open(temp, ios::in|ios::binary);
                 if (myfile_Get_all_Files.is_open())
                 {
                     myfile_Get_all_Files.close();
-                    cout << temp << endl;
+                    //cout << temp << endl;
                     ScanFile(temp);
                 } else {
                 myfile_Get_all_Files.close();
@@ -91,13 +94,17 @@ void Get_all_Files(string dir)
 
 void ScanFile(string path)
 {
-    string Find1="Page 1 of ";
+    string Find1="results 1-";
     string Max_Pages="";
+    int Max_Pages_int;
     int Find1_length=Find1.length();
     int pos1=0;
     char infile_char;
 
-    infile_ScanFile.open(path.c_str(), ios::in|ios::binary);
+    if(path.find("/1/")== string::npos) return;
+    //cout << path << endl;
+
+    infile_ScanFile.open(path, ios::in|ios::binary);
     if (infile_ScanFile.is_open()) {
         while (infile_ScanFile.get(infile_char))
         {
@@ -113,17 +120,36 @@ void ScanFile(string path)
                 while(infile_ScanFile.get(infile_char))
                 {
                     if(infile_char==' ') break;
-                    Max_Pages+=infile_char;
-                    pos1++;
                 }
 
-                outfile_ss << Max_Pages << '\n';
-                cout << Max_Pages << endl;
+                while(infile_ScanFile.get(infile_char))
+                {
+                    if(infile_char==' ') break;
+                }
+
+
                 Max_Pages="";
+
+                while(infile_ScanFile.get(infile_char))
+                {
+                    if(infile_char=='<') break;
+                    Max_Pages+=infile_char;
+                }
+
+                Max_Pages_int=int(atoi(Max_Pages.c_str())/25)+1;
+                results+=atoi(Max_Pages.c_str());
+
+                outfile_ss << Max_Pages_int << '\n';
+                cout << "[+] " << Max_Pages_int << " sites and " << Max_Pages << " results" << endl;
+                Max_Pages="";
+                infile_ScanFile.close();
+                return;
             }else {
-                cout << Find1 << endl;
+                //cout << Find1 << endl;
             }
 
         }
+        cout << "Critical Error! Outputfile will probably be corrupted and useless for you! Sorry." << endl;
+        infile_ScanFile.close();
     }
 }
