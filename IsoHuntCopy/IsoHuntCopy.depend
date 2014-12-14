@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1418586847 source:e:\documents\github\kickasscopy\isohuntcopy\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<dirent.h>
+	"windows.h"
+	<shellapi.h>
+

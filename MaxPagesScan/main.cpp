@@ -5,10 +5,13 @@
 #include <dirent.h>
 #include <ctime>
 #include <stdlib.h>
+#include <math.h>
+
 
 using namespace std;
 unsigned int Header_deaph=0;
 unsigned long results=0;
+bool search_sucsess=false;
 
 stringstream outfile_ss;
 fstream tempfile;
@@ -34,6 +37,8 @@ int main()
     outfile << outfile_ss.str();
     outfile.close();
     cout << "Done!" << endl;
+    cout << "Press ENTER to close the program" << endl;
+    cin.get();
     return 0;
 }
 
@@ -44,6 +49,8 @@ int main()
 //Im Internet findet man dazu abgesehen von boost nichts Platformunabhängiges!
 void Get_all_Files(string dir)
 {
+    //cout << dir << endl;
+    //cin.get();
     stringstream temp_ss;
     string temp;
     string temp_short;
@@ -96,12 +103,16 @@ void ScanFile(string path)
 {
     string Find1="results 1-";
     string Max_Pages="";
+    string Category=path.substr(18,3); //Achtung: geht nur bei ./kickass/usearch/XXX/...
     int Max_Pages_int;
     int Find1_length=Find1.length();
     int pos1=0;
     char infile_char;
 
-    if(path.find("/1/")== string::npos) return;
+    //cout << Category << endl;
+    //cin.get();
+
+    //if(path.find("/1/")== string::npos) return;
     //cout << path << endl;
 
     infile_ScanFile.open(path, ios::in|ios::binary);
@@ -136,20 +147,19 @@ void ScanFile(string path)
                     Max_Pages+=infile_char;
                 }
 
-                Max_Pages_int=int(atoi(Max_Pages.c_str())/25)+1;
+                Max_Pages_int=ceil(atoi(Max_Pages.c_str())/25.0);
                 results+=atoi(Max_Pages.c_str());
 
-                outfile_ss << Max_Pages_int << '\n';
+                outfile_ss << Category << " " << Max_Pages_int << '\n';
                 cout << "[+] " << Max_Pages_int << " sites and " << Max_Pages << " results" << endl;
                 Max_Pages="";
                 infile_ScanFile.close();
                 return;
-            }else {
-                //cout << Find1 << endl;
             }
-
         }
-        cout << "Critical Error! Outputfile will probably be corrupted and useless for you! Sorry." << endl;
+        //cout << "Critical Error! Outputfile will probably be corrupted and useless for you! Sorry." << endl; //Problem with corrupted Files fixed! :D
+        cout << "Error path: " << path << endl;
+        //cin.get();
         infile_ScanFile.close();
     }
 }

@@ -13,6 +13,7 @@ bool next(string& x);
 
 
 vector<unsigned int> MaxPages;
+vector<string> MaxPages_Organisation;
 unsigned long MaxPages_length=0;
 bool MaxPages_out_of_range=false;
 
@@ -25,6 +26,9 @@ int main()
     //ShellExecute(0, "open", "curl", "https://kickass.so/", 0, SW_SHOWNORMAL);
     //ShellExecute(NULL, "open", "curl.exe", "https://kickass.so/the-good-lie-2014-720p-brrip-x264-yify-t9946721.html", NULL, SW_SHOWNORMAL);
     brute5();
+
+    /*
+    Bug Fixed!
     if(MaxPages_out_of_range==true and MaxPages_length>0)
     {
         cout << "Warning:\nThe length of MaxPages has exceeded and gave an an out_of_range error.\n"
@@ -34,7 +38,11 @@ int main()
              << "file and take for every value the defult value.\n"
              << "But the best thing is stil a working MaxPages.txt file." << endl;
     }
+    */
+
     cout << "\nDone!" << endl;
+    cout << "Press ENTER to close the program" << endl;
+    cin.get();
     return 0;
 }
 
@@ -42,7 +50,8 @@ int main()
 
 bool Read_MaxPagesFile(void)
 {
-    char line[4];
+    char line[8];
+    string line_string;
     ifstream infile ("MaxPages.txt", ios::in);
     if (!infile)
     {
@@ -51,9 +60,14 @@ bool Read_MaxPagesFile(void)
         "For this progress the defult value of 20 pages will be tacken for every\ncombination, but you'll have a lot of dublications and missing Links!\n" << endl;
         return false;
     }
-    while (infile.getline(line, 4))
+
+    while (infile.getline(line, 8))
     {
-        MaxPages.push_back(atoi(line));
+        line_string=line;
+        //cout << line_string.substr(0,3) << endl;
+        //cout << line_string.substr(4,line_string.length()-4) << endl;
+        MaxPages_Organisation.push_back(line_string.substr(0,3));
+        MaxPages.push_back(atoi(line_string.substr(4).c_str()));
         //cout << line << endl;
     }
     MaxPages_length=MaxPages.size();
@@ -73,20 +87,22 @@ void brute5(void)
         //if(brute[brute.length()-1]<'a' or brute[brute.length()-2]<'a' or brute[brute.length()-3]<'a') Nubers in conbination only mod
         {
             //cout << brute << endl; //endl is better because Buffer Overvlow but slower than << "\n"! The Best thinng is to don't show anything!
-            if(MaxPages_length>Pos)
+            //cout << MaxPages_Organisation.at(Pos) << endl;
+            //cout << brute.substr(brute.length()-3) << endl;
+            //cin.get();
+            if(MaxPages_length>Pos and MaxPages_Organisation.at(Pos)==brute.substr(brute.length()-3))
             {
                 i_max=MaxPages.at(Pos);
-            } else {
-                i_max=20;
-                MaxPages_out_of_range=true;
-            }
-            //fs << brute << "/" << endl;
-            for(int i=1; i<=i_max; i++)
-            {
-                fs << brute << "/" << i << "/" << endl;
-                //cout <<  brute << "/" << i << "/" << endl;
-            }
+                //fs << brute << "/" << endl;
+                for(int i=1; i<=i_max; i++)
+                {
+                    fs << brute << "/" << i << "/" << endl;
+                    //fs << brute << "/" << endl;
+                    //cout <<  brute << "/" << i << "/" << endl;
+                }
             Pos++;
+            }
+            //cout << "a";
         }
 
         if(brute=="http://kickass.so/usearch/zzz")
