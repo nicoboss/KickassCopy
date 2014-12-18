@@ -81,10 +81,10 @@ void brute5(void)
     int i_max;
     fstream fs;
     fs.open ("kickass_for_HTtrack.txt", fstream::out);
-    string brute="http://kickass.so/usearch/aaa";//('a', 48);
+    string brute="http://kickass.so/usearch/000";//('a', 48);
     do {
         //ShellExecute(NULL, "open", "document.doc", NULL, NULL, SW_SHOWNORMAL);
-        //if(brute[brute.length()-1]<'a' or brute[brute.length()-2]<'a' or brute[brute.length()-3]<'a') Nubers in conbination only mod
+        if(brute[brute.length()-1]<'a' or brute[brute.length()-2]<'a' or brute[brute.length()-3]<'a') //Nubers in conbination only mod
         {
             //cout << brute << endl; //endl is better because Buffer Overvlow but slower than << "\n"! The Best thinng is to don't show anything!
             //cout << MaxPages_Organisation.at(Pos) << endl;
@@ -96,9 +96,16 @@ void brute5(void)
                 //fs << brute << "/" << endl;
                 for(int i=1; i<=i_max; i++)
                 {
-                    fs << brute << "/" << i << "/" << endl;
+                    if(i==1)
+                    {
+                        fs << brute << "/" << endl;
+                        cout <<  brute << "/" << endl;
+                    } else {
+                        fs << brute << "/" << i << "/" << endl;
+                        cout <<  brute << "/" << i << "/" << endl;
+                    }
                     //fs << brute << "/" << endl;
-                    //cout <<  brute << "/" << i << "/" << endl;
+
                 }
             Pos++;
             }
@@ -129,7 +136,7 @@ bool next(string& x)
         overflow = false;
         if(--len == 0)
             return false;
-        (x[len] == 'z')?(overflow = true, x[len] = 'a'):x[len] += 1;
+        (x[len] == 'z')?(overflow = true, x[len] = '0'):x[len] += 1;
         if(x[len]==':')
             x[len] += 39;
     }

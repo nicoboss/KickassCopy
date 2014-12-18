@@ -25,15 +25,15 @@ int main()
     string parm;
     stringstream filename;
     ofstream outfile; //("IsoHunt.txt", ios::out|ios::binary|ios::trunc);
-    for(int pack=1425;pack<10000;pack++)
+    for(int pack=405;pack<10000;pack++)
     {
         cout << pack << endl;
-        filename << "IsoHunt_Part" << pack << ".txt";
+        filename << "oldpiratebay_Part" << pack << ".txt";
         outfile.open(filename.str(), ios::out|ios::binary|ios::trunc);
         for(int i=pack*1000;i<pack*1000+1000;i++)
         {
 
-            outfile << "http://isohunt.to/torrent_details/" << i << endl;
+            outfile << "http://torrent.oldpiratebay.org/download.php?id=" << i << endl;
             //parm_ss << "--trust-server-names http://torrent.isohunt.to/download.php?id=" << i;
             //parm_ss << "--trust-server-names -P /wget http://isohunt.to/torrent_details/" << i <<"/";
             //parm=parm_ss.str();
@@ -41,7 +41,8 @@ int main()
             //parm_ss.clear();
         }
         outfile.close();
-        parm_ss << "-q --trust-server-names -P ./wget/" << pack << "/ -i " << filename.str();
+        //parm_ss << "-P ./wget/" << pack << "/ -O " << pack << ".torrent -i " << filename.str();
+        parm_ss << "--content-disposition -P ./wget/" << pack << "/ -i " << filename.str();
         parm=parm_ss.str();
         cout << parm << endl;
 
@@ -50,107 +51,12 @@ int main()
         parm_ss.clear();
         filename.str("");
         filename.clear();
-        filename << "./wget/" << int(pack-60);
-        Get_all_Files(filename.str(), pack-60);
-        filename.str("");
-        filename.clear();
-        Sleep(20000);
+        Sleep(25000);
         //cin.get();
     }
 
 
     return 0;
-}
-
-
-//Ermittlungsart File oder Ordner selbst Erunden! :D
-//Im Internet findet man dazu abgesehen von boost nichts Platformunabhängiges!
-void Get_all_Files(string dir, unsigned int pack)
-{
-    cout << dir << endl;
-    stringstream outfile_ss;
-    outfile_ss << "./Magnet/" << pack << ".txt";
-    ofstream outfile(outfile_ss.str(), ios::out|ios::binary|ios::app);
-    ifstream myfile_Get_all_Files;
-    outfile_ss.str("");
-    outfile_ss.clear();
-
-    stringstream temp_ss;
-    string temp;
-    string temp_short;
-
-    string Find1="magnet:?xt=urn:btih:";
-    string Magnet_URL;
-    string line;
-
-    int Find1_length=Find1.length();
-    int pos1=0;
-    char infile_char;
-
-    DIR *hdir;
-    struct dirent *entry;
-    hdir=opendir(dir.c_str());
-    do
-    {
-        entry=readdir(hdir);
-        if(entry) {
-
-            temp=entry->d_name;
-
-            if(temp=="." or temp=="..")
-            {
-                continue;
-            }
-            else
-            {
-                temp_ss.clear(); //important!
-                temp_ss.str(string()); //= temp_ss.str(""); but maybe faster on bad compilers
-
-                temp_ss << dir << "/" << entry->d_name;
-                temp=temp_ss.str();
-                //cout << temp << endl;
-
-                myfile_Get_all_Files.open(temp, ios::in|ios::binary);
-                if (myfile_Get_all_Files.is_open())
-                {
-                    while (myfile_Get_all_Files.get(infile_char))
-                    {
-                        if(infile_char==Find1[pos1])
-                        {
-                            Magnet_URL+=infile_char;
-                            pos1++;
-                        } else {
-                            pos1=0;
-                            Magnet_URL="";
-                        }
-
-
-                        if(pos1==Find1_length)
-                        {
-                            //cout << temp << endl;
-                            while(myfile_Get_all_Files.get(infile_char))
-                            {
-                                if(infile_char=='"') break;
-                                Magnet_URL+=infile_char;
-                                pos1++;
-                            }
-
-                        pos1=0;
-                        outfile << Magnet_URL << endl;
-
-                        Magnet_URL="";
-                    }
-
-                }
-            }
-            myfile_Get_all_Files.close();
-            }
-        }
-
-    } while(entry);
-
-    outfile.close();
-    return;
 }
 
 

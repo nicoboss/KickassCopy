@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1418844910 source:e:\documents\github\kickasscopy\magnet2torrent\main.cpp
+	<iostream>
+	"Bencode.h"
+	<string>
+	<sstream>
+	<fstream>
+	<stdio.h>
+	<stdlib.h>
+
+1418842442 e:\documents\github\kickasscopy\magnet2torrent\bencode.h
+	<map>
+	<vector>
+	<stdint.h>
+	<string.h>
+
+1418842442 source:e:\documents\github\kickasscopy\magnet2torrent\bencode.cpp
+	"Bencode.h"
+	<stdlib.h>
+	<stdio.h>
+
