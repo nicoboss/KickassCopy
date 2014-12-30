@@ -25,7 +25,7 @@ int main()
     string parm;
     stringstream filename;
     ofstream outfile; //("IsoHunt.txt", ios::out|ios::binary|ios::trunc);
-    for(int pack=1425;pack<10000;pack++)
+    for(int pack=1571;pack<10000;pack++)
     {
         cout << pack << endl;
         filename << "IsoHunt_Part" << pack << ".txt";
@@ -54,7 +54,7 @@ int main()
         Get_all_Files(filename.str(), pack-60);
         filename.str("");
         filename.clear();
-        Sleep(20000);
+        Sleep(15000);
         //cin.get();
     }
 
