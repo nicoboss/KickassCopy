@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1420156704 source:c:\users\nico_000\documents\github\kickasscopy\torrentzcopy\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<dirent.h>
+	<windows.h>
+	<math.h>
+	<shellapi.h>
+

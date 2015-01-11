@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 #include <cstring>
-#import <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
 #include <dirent.h>
@@ -86,7 +86,7 @@ int main()
          << endl;
     */
 
-    Find.push_back("magnet:?xt=urn:btih:"); //hash
+    Find.push_back("<div class=\"SimpleAcceptebleTextAds\"><h3>"); //hash
     Find.push_back("cellMainLink"); //name
     Find.push_back("Posted by"); //Author
     Find.push_back("in <span id="); //category & subcategory
@@ -110,7 +110,7 @@ int main()
 
     cout << "Deleting old temp files..." << endl;
     remove("Kickass_DB_Dump.csv");
-    dir="./kickass";
+    dir="./torrenz";
     cout << "Check continue.txt file..." << endl;
     ifstream infile ("continue.txt", ios::in|ios::binary);
     if(infile)
@@ -259,7 +259,7 @@ void Get_all_Files(string dir, unsigned int Header_Basisphath_length, unsigned i
 
 void ScanFile(string path)
 {
-    //cout << path << endl;
+    cout << path << endl;
 
     memset(torrent.author,0,sizeof(torrent.author)); //Very importend because otherwise there are sometime random values in the RAM!
 
@@ -303,16 +303,77 @@ void ScanFile(string path)
             if(Pos[0]==Find_length[0])
             {
                 i_max=7;
-                //cout << "0" << endl;
+                cout << "0" << endl;
+
+
                 memset(torrent.hash_char,0,sizeof(torrent.hash_char));
                 //Useless because the has is alwas 40 characters and overwrite the whole char arrey!
+
+                while(infile_ScanFile.get(infile_char))
+                {
+                    if(infile_char==10) break; //LF not CR!!!
+                }
+
+                for(i=0;i<17;i++)
+                {
+                    infile_ScanFile.get(infile_char);
+                }
+
+                infile_ScanFile.get(infile_char);
+                if(infile_char!='/')
+                {
+                    cout << "ERROR!" << endl;
+                    system("pause");
+                }
+
+                system("pause");
+
                 for(i=0;i<40;i++)
                 {
-                    infile_ScanFile.get(torrent.hash_char[i]);
+                    infile_ScanFile.get(infile_char);
+                    cout <<  infile_char;
                 }
+
+
+                for(i=0;i<32;i++) //128=defult error value
+                {
+                    infile_ScanFile.get(infile_char);
+                    if(infile_char=='<')
+                    {
+                        do {
+                            if(infile_char=='>')
+                            {
+                                infile_ScanFile.get(infile_char);
+                                break;
+                            }
+
+                            if(infile_char=='/')
+                            {
+                                infile_ScanFile.get(infile_char);
+                                if(infile_char=='a')
+                                {
+                                    infile_ScanFile.get(infile_char);
+                                    if(infile_char=='>') goto multiloop_break; //Ugly but necessary goto statment.
+                                }
+                            }
+                        } while (infile_ScanFile.get(infile_char));
+                    }
+
+                    if(element==0)
+                    {
+                        torrent.category[i]=infile_char;
+                        //cout << infile_char;
+                    } else {
+                        torrent.subcategory[i]=infile_char;
+                        //cout << infile_char;
+                    }
+                }
+                multiloop_break:;
+
+
                 //cout << torrent.hash_char << endl;
             } else if (Pos[1]==Find_length[1]) {
-                //cout << "1" << endl;
+                cout << "1" << endl;
                 memset(torrent.name,0,sizeof(torrent.name));
                 infile_ScanFile.get();
                 infile_ScanFile.get();
