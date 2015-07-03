@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1418768905 source:c:\users\nico_000\documents\github\kickasscopy\kickasslinkcreator\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	"windows.h"
+	<shellapi.h>
+	<fstream>
+
+1418929818 source:e:\documents\github\kickasscopy\kickasslinkcreator\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	"windows.h"
+	<shellapi.h>
+	<fstream>
+

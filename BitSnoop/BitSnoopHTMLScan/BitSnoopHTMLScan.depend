@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1418554732 source:e:\documents\github\kickasscopy\kickasshtmlscan\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<dirent.h>
+	<ctime>
+
+1418424267 source:c:\users\nico_000\documents\github\kickasscopy\kickasshtmlscan\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<dirent.h>
+	<ctime>
+
+1422642019 source:e:\documents\github\kickasscopy\bitsnoop\bitsnoophtmlscan\main.cpp
+	<iostream>
+	<sstream>
+	<fstream>
+	<string>
+	<dirent.h>
+	<ctime>
+
