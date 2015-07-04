@@ -9,8 +9,9 @@ gzip -fd dailydump.txt.gz
 rm -f dailydump.txt.gz
 
 #Import the txt file and convert it into the openbay format.
-mysql --user=root --password=$MySQL_password << "EOF"
+mysql --local-infile=1 --user=root --password=$MySQL_password << "EOF"
 
+SET GLOBAL local_infile = 'ON';
 CREATE DATABASE IF NOT EXISTS kickass
 DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
