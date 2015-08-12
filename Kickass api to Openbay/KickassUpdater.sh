@@ -1,10 +1,11 @@
 #!/bin/sh
 MySQL_password=
+kickass_userhash=
 
-#Downloading update database using the kickass api
+#Downloading update database using the kickass api. Pleas register and send a request to get api access.
 cd /root
 rm -f hourlydump.txt.gz
-wget https://kat.cr/hourlydump.txt.gz
+wget --post-data "userhash=$kickass_userhash" 'https://kat.cr/api/get_dump/hourly/'
 gzip -fd hourlydump.txt.gz
 rm -f hourlydump.txt.gz
 
