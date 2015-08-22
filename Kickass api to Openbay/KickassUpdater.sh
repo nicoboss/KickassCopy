@@ -1,16 +1,17 @@
 #!/bin/sh
-MySQL_password=
-kickass_userhash=
+MySQL_username='root'
+MySQL_password=''
+kickass_userhash=''
 
 #Downloading update database using the kickass api. Pleas register and send a request to get api access.
 cd /root
 rm -f hourlydump.txt.gz
-wget --post-data "userhash=$kickass_userhash" 'https://kat.cr/api/get_dump/hourly/'
+wget -O 'hourlydump.txt.gz' --post-data "userhash=$kickass_userhash" 'https://kat.cr/api/get_dump/hourly/'
 gzip -fd hourlydump.txt.gz
 rm -f hourlydump.txt.gz
 
 #Import the txt update file into a temporary database and convert this into the openbay format.
-mysql --local-infile=1 --user=root --password=$MySQL_password << "EOF"
+mysql --local-infile=1 --user=$MySQL_username --password=$MySQL_password << "EOF"
 
 SET GLOBAL local_infile = 'ON';
 CREATE DATABASE IF NOT EXISTS kickass
