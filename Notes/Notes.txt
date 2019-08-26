@@ -1,0 +1,34 @@
+ALTER IGNORE TABLE one.all ADD UNIQUE INDEX hash
+ALTER IGNORE TABLE one.torrents
+ADD UNIQUE (`hash`);
+udp://tracker.openbittorrent.com:80/announce
+udp://tracker.publicbt.com:80/announce
+udp://tracker.ccc.de:80/announce
+udp://open.demonii.com:1337/announce
+udp://tracker.publicbt.com:80/announce
+udp://tracker.istole.it:80/announce
+
+
+ALTER TABLE torrents DROP INDEX description;
+ALTER IGNORE TABLE all ADD UNIQUE INDEX hash
+ALTER IGNORE TABLE `my_table`
+    ADD UNIQUE (`hash`);
+ALTER IGNORE TABLE `all`
+    ADD UNIQUE (`hash`);
+
+
+insert ignore INTO all_in_one SELECT * FROM full_torrents
+LOAD DATA INFILE 'All_in_one_finish.csv' INTO TABLE db.all FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+
+
+LOAD DATA INFILE 'BitSnoop_dump_26-FEB-14.csv' INTO TABLE bitsnoop.26_feb_2014 FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n' (hash,name)
+UPDATE bitsnoop.26_feb_2014 SET description='' WHERE description IS NULL;
+UPDATE bitsnoop.26_feb_2014 SET tags='' WHERE tags IS NULL;
+
+
+LOAD DATA INFILE 'All_in_one_finish.csv' IGNORE INTO TABLE All_in_one_finish.torrents FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '"'
+LOAD DATA INFILE 'opb.csv' IGNORE INTO TABLE db.torrents FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '"'
+LOAD DATA INFILE 'dailydump.txt' IGNORE INTO TABLE torrentproject.dailydump FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n'
+LOAD DATA INFILE 'dailydump.csv' INTO TABLE torrentproject.dailydump_V3 FIELDS TERMINATED BY '|' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+
+

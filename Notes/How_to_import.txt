@@ -1,0 +1,19 @@
+How to import this DB:
+1. Download and extract the DB
+2. Import the 2 sql Files with LOAD DATA INFILE or with a graphical Interface like PHPMyAdmin.
+How to update this DB in 2 Steps:
+1. Download and extract or clone https://github.com/nicoboss/KickassCopy and go into the UpdateTorrentProject folder and open the update.bat (Windows x64 only) file and wait some minutes. You can also use the UpdateTorrentProject in the Torrent file but it might be outdated but it would also work.
+2. Copy the dailydump.csv to your /mysql/data/…/ folder and customize and execute the following SQL script. The scheme for the torrentproject.dailydump can you find also in the torrent file and the db.torrent is your final DB.
+LOAD DATA INFILE 'dailydump.csv' INTO TABLE torrentproject.dailydump_V3 FIELDS TERMINATED BY '|' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n';
+INSERT IGNORE INTO db.torrent (name, hash, tags) SELECT name, hash, tags FROM torrentproject.dailydump;
+TRUNCATE TABLE torrentproject.dailydump;
+UPDATE db.torrent SET description='' WHERE description is NULL;
+UPDATE db.torrent SET category_id=2 WHERE tags like 'Applications%';
+UPDATE db.torrent SET category_id=3 WHERE tags like 'Games%' or tags like 'Mobile%';
+UPDATE db.torrent SET category_id=4 WHERE tags like 'Adult%';
+UPDATE db.torrent SET category_id=5 WHERE tags like 'Video%';
+UPDATE db.torrent SET category_id=6 WHERE tags like 'Audio%';
+UPDATE db.torrent SET category_id=7 WHERE tags like 'Images%';
+UPDATE db.torrent SET category_id=7 WHERE tags='';
+UPDATE db.torrent SET category_id=8 WHERE tags='Video Tv';
+UPDATE db.torrent SET category_id=9 WHERE tags like 'Ebooks%';

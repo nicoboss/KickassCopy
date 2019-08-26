@@ -1,0 +1,74 @@
+SET
+  spaltenname_neu = spaltenname_alt
+
+UPDATE kickass.open_bay SET description='' WHERE description IS NULL;
+UPDATE kickass.open_bay SET category_id=1 WHERE tags='anime';
+UPDATE kickass.open_bay SET category_id=2 WHERE tags='software';
+UPDATE kickass.open_bay SET category_id=3 WHERE tags='games';
+UPDATE kickass.open_bay SET category_id=4 WHERE tags='adult';
+UPDATE kickass.open_bay SET category_id=5 WHERE tags='movies';
+UPDATE kickass.open_bay SET category_id=7 WHERE tags='other';
+UPDATE kickass.open_bay SET category_id=6 WHERE tags='music';
+UPDATE kickass.open_bay SET category_id=8 WHERE tags='series & tv';
+UPDATE kickass.open_bay SET category_id=9 WHERE tags='books'
+ 
+UPDATE kickass.open_bay SET description='' WHERE description IS NULL;
+UPDATE kickass.open_bay SET category_id=1 WHERE tags='Anime';
+UPDATE kickass.open_bay SET category_id=2 WHERE tags='Application';
+UPDATE kickass.open_bay SET category_id=3 WHERE tags='Games';
+UPDATE kickass.open_bay SET category_id=4 WHERE tags='XXX';
+UPDATE kickass.open_bay SET category_id=5 WHERE tags='Movies';
+UPDATE kickass.open_bay SET category_id=7 WHERE tags='Other';
+UPDATE kickass.open_bay SET category_id=6 WHERE tags='Music';
+UPDATE kickass.open_bay SET category_id=8 WHERE tags='TV;
+UPDATE kickass.open_bay SET category_id=9 WHERE tags='Books'
+ 
+UPDATE kickass.open_bay SET description='' WHERE description IS NULL;
+UPDATE kickass.open_bay SET category_id=1 WHERE tags='Anime';
+UPDATE kickass.open_bay SET category_id=2 WHERE tags='Applications';
+UPDATE kickass.open_bay SET category_id=3 WHERE tags='Games';
+UPDATE kickass.open_bay SET category_id=4 WHERE tags='XXX';
+UPDATE kickass.open_bay SET category_id=5 WHERE tags='Movies';
+UPDATE kickass.open_bay SET category_id=7 WHERE tags='Other';
+UPDATE kickass.open_bay SET category_id=6 WHERE tags='Music';
+UPDATE kickass.open_bay SET category_id=8 WHERE tags='TV'; 
+UPDATE kickass.open_bay SET category_id=9 WHERE tags='Books';
+
+
+TV:  1004769 Datensätze betroffen. (Die Abfrage dauerte 198.1731 Sekunden.)
+Books: 359996 Datensätze betroffen. (Die Abfrage dauerte 173.3422 Sekunden.)
+ 
+select * from table where name like 'A%'
+
+UPDATE db.dailydump SET description='' WHERE description IS NULL;
+
+UPDATE db. dailydump SET category_id=1 WHERE tags like 'Anime%';
+Images?!?
+UPDATE db.dailydump SET category_id=2 WHERE tags like 'Applications%';
+UPDATE db. SET category_id=3 WHERE tags like 'Games%' or tags like 'Mobile%';
+UPDATE db.dailydump SET category_id=4 WHERE tags like 'Adult%';
+UPDATE db.dailydump SET category_id=5 WHERE tags like 'Video%';
+UPDATE db.dailydump SET category_id=7 WHERE tags='';
+UPDATE db.dailydump SET category_id=6 WHERE tags like 'Audio%';
+UPDATE db.dailydump SET category_id=9 WHERE tags like 'Ebooks%';
+UPDATE db.dailydump SET category_id=8 WHERE tags='Video Tv'; 
+UPDATE db.dailydump SET category_id=7 WHERE tags like 'Images%';
+
+UPDATE db.dailydump SET size=0 WHERE size IS NULL;
+UPDATE db.dailydump SET torrent_status=0 WHERE torrent_status IS NULL;
+UPDATE db.dailydump SET visible_status=0 WHERE visible_status IS NULL;
+UPDATE db.dailydump SET files_count=0 WHERE files_count IS NULL;
+
+
+INSERT INTO db.tp (name, hash, tags) SELECT name, hash, tags FROM torrentproject.dailydump
+UPDATE db.tp SET description='' WHERE description IS NULL
+UPDATE db.tp SET category_id=2 WHERE tags like 'Applications%';
+UPDATE db.tp SET category_id=3 WHERE tags like 'Games%' or tags like 'Mobile%';
+UPDATE db.tp SET category_id=4 WHERE tags like 'Adult%';
+UPDATE db.tp SET category_id=5 WHERE tags like 'Video%';
+UPDATE db.tp SET category_id=6 WHERE tags like 'Audio%';
+UPDATE db.tp SET category_id=7 WHERE tags like 'Images%';
+UPDATE db.tp SET category_id=7 WHERE tags='';
+UPDATE db.tp SET category_id=8 WHERE tags='Video Tv';
+UPDATE db.tp SET category_id=9 WHERE tags like 'Ebooks%';
+
